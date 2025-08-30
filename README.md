@@ -7,15 +7,15 @@ Provides a library to parse [Systemd.Time calendar expressions](https://www.free
 Add OnCalendar to your project:
 
 ```bash
-gem install oncalendar
+gem install on_calendar
 ```
 ```ruby
-require "oncalendar"
+require "on_calendar"
 ```
 Or using bundler:
 
 ```bash
-bundle add oncalendar
+bundle add on_calendar
 ```
 
 Parse your expression, should your expression be invalid a `OnCalendar::Parser::Error` will be raised:

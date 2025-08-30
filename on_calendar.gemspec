@@ -3,20 +3,20 @@
 require_relative "lib/on_calendar/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "OnCalendar"
+  spec.name = "on_calendar"
   spec.version = OnCalendar::VERSION
   spec.authors = ["Ben Passmore"]
   spec.email = ["contact@passbe.com"]
 
   spec.summary = "Parser for OnCalendar expressions used by systemd time."
-  spec.homepage = "https://github.com/passbe/oncalendar"
+  spec.homepage = "https://github.com/passbe/on_calendar"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.1"
 
   spec.metadata = {
-    "bug_tracker_uri" => "https://github.com/passbe/oncalendar/issues",
-    "changelog_uri" => "https://github.com/passbe/oncalendar/releases",
-    "source_code_uri" => "https://github.com/passbe/oncalendar",
+    "bug_tracker_uri" => "https://github.com/passbe/on_calendar/issues",
+    "changelog_uri" => "https://github.com/passbe/on_calendar/releases",
+    "source_code_uri" => "https://github.com/passbe/on_calendar",
     "homepage_uri" => spec.homepage,
     "rubygems_mfa_required" => "true"
   }
