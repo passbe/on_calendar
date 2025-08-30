@@ -71,6 +71,30 @@ describe OnCalendar::Parser do
         parser.new("M")
       end
     end
+
+    it "nil expression" do
+      assert_raises parser::Error do
+        parser.new(nil)
+      end
+    end
+
+    it "integer expression" do
+      assert_raises parser::Error do
+        parser.new(1)
+      end
+    end
+    
+    it "boolean expression" do
+      assert_raises parser::Error do
+        parser.new(false)
+      end
+    end
+
+    it "array expression" do
+      assert_raises parser::Error do
+        parser.new([])
+      end
+    end
   end
 
   describe "next" do
