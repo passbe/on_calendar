@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    OnCalendar (0.1.0)
+    on_calendar (0.1.0)
       activesupport (~> 8.0)
 
 GEM
@@ -95,12 +95,12 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  OnCalendar!
   activesupport (~> 8.0)
   minitest (~> 5.11)
   minitest-reporters
   minitest-spec
   minitest-stub_any_instance
+  on_calendar!
   rake (~> 13.0)
   rubocop (= 1.79.1)
   rubocop-minitest (= 0.38.1)
