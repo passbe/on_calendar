@@ -234,18 +234,18 @@ module OnCalendar
         # Parse this segment
         begin
           parsed = OnCalendar::Segment.parse(segments.shift, max: max, min: min)
-        rescue OnCalendar::Segment::Error => e
-          raise Error, e
-        end
-        if parsed.nil?
-          # We are a wild card
-          conditions[idx] = [OnCalendar::Condition.const_get(klass).new(wildcard: true)]
-        else
-          # Lets build conditions with parsed
-          conditions[idx] = []
-          parsed.each do |c|
-            conditions[idx] << OnCalendar::Condition.const_get(klass).new(**c)
+          if parsed.nil?
+            # We are a wild card
+            conditions[idx] = [OnCalendar::Condition.const_get(klass).new(wildcard: true)]
+          else
+            # Lets build conditions with parsed
+            conditions[idx] = []
+            parsed.each do |c|
+              conditions[idx] << OnCalendar::Condition.const_get(klass).new(**c)
+            end
           end
+        rescue OnCalendar::Segment::Error, OnCalendar::Condition::Error => e
+          raise Error, e
         end
       end
       conditions
