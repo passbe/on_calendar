@@ -78,6 +78,12 @@ describe OnCalendar::Parser do
       end
     end
 
+    it "empty expression" do
+      assert_raises parser::Error do
+        parser.new("")
+      end
+    end
+
     it "integer expression" do
       assert_raises parser::Error do
         parser.new(1)

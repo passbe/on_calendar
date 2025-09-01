@@ -135,6 +135,7 @@ module OnCalendar
 
     def parse(expression)
       raise OnCalendar::Parser::Error, "Expression must be a string" unless expression.is_a?(String)
+      raise OnCalendar::Parser::Error, "Expression cannot be empty" if expression.empty?
 
       # Split string on white space and reverse
       segments = expression.split.reverse
