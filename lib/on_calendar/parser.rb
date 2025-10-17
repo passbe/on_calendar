@@ -31,8 +31,9 @@ module OnCalendar
     def next(count=1, clamp: timezone.now)
       raise OnCalendar::Parser::Error, "Clamp must be instance of Time" unless clamp.is_a?(Time)
 
-      # Translate to correct timezone
-      clamp = clamp.in_time_zone(timezone)
+      # Translate to correct timezone and add 1.second to ensure
+      # we get the "next" occurence and not the current Time.now
+      clamp = clamp.in_time_zone(timezone) + 1.second
 
       results = []
       count.times do

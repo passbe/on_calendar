@@ -89,7 +89,7 @@ describe OnCalendar::Parser do
         parser.new(1)
       end
     end
-    
+
     it "boolean expression" do
       assert_raises parser::Error do
         parser.new(false)
@@ -125,6 +125,13 @@ describe OnCalendar::Parser do
       result = p.next(clamp: Time.parse("2025-01-27 05:00:01 +0100")).first
       assert_equal 2, result.month
       assert_equal result.gmt_offset, p.timezone.now.timezone_offset.base_utc_offset
+    end
+
+    it "next iteration should not be now/clamp" do
+      p = parser.new("2000-01-01 00:00:*")
+      clamp = Time.parse("2000-01-01 00:00:01")
+      result = p.next(1, clamp: clamp).first
+      assert_operator result, :>, clamp
     end
 
     # Load * examples from fixtures and stress test
