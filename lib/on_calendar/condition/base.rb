@@ -75,7 +75,8 @@ module OnCalendar
 
         return nil if needle_index.nil?
 
-        distance = 0
+        # Default to increment value by 1
+        distance = 1
 
         if step.nil?
           # If we are dealing with a range and the current and current+1 within range
@@ -106,17 +107,15 @@ module OnCalendar
           target_index = arr.index(next_value)
         end
 
-        unless target_index.nil?
-          # Lets work out distance between target_index and needle_index
-          if needle_index < target_index
-            # If the needle is before target get how many steps we need to step
-            distance = target_index - needle_index
-          else
-            # If is in front of us loop over until start of array
-            # Note: This sounds counter intuitive - why not give the distance until the next value
-            #       However this forces us to re-evaluate all other date parts otherwise we might jump forward too far
-            distance = arr.length - needle_index
-          end
+        # Lets work out distance between target_index and needle_index
+        if !target_index.nil? && needle_index < target_index
+          # If the needle is before target get how many steps we need to step
+          distance = target_index - needle_index
+        else
+          # If is in front of us loop over until start of array
+          # Note: This sounds counter intuitive - why not give the distance until the next value
+          #       However this forces us to re-evaluate all other date parts otherwise we might jump forward too far
+          distance = arr.length - needle_index
         end
         distance
       end

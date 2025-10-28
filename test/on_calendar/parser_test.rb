@@ -134,6 +134,12 @@ describe OnCalendar::Parser do
       assert_operator result, :>, clamp
     end
 
+    # NOTE: See issue #1
+    it "when leap year" do
+      p = parser.new("*-02-29 UTC")
+      refute_nil p.next
+    end
+
     # Load * examples from fixtures and stress test
     YAML.load_file("test/fixtures/expressions.yaml", permitted_classes: [Time])["expressions"].each do |e|
       it "expression: #{e['expression']}" do

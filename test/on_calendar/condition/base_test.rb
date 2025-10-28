@@ -211,6 +211,20 @@ describe OnCalendar::Condition::Base do
       end
     end
 
+    # NOTE: This specifically targets a month whereby 30 is valid on new but invalid on context aware
+    it "distance max if context aware range does not include base" do
+      b = nil
+      # Create context unaware condition
+      base.stub_any_instance(:range, 1..10) do
+        b = base.new(base: 9)
+      end
+      refute_nil b
+      # With a context aware condition (reduced range) we should return distance to loop range
+      base.stub_any_instance(:range, 1..8) do
+        assert_equal 4, b.distance_to_next(5)
+      end
+    end
+
     describe "with step" do
       it "distance if integer" do
         base.stub_any_instance(:range, 1..20) do

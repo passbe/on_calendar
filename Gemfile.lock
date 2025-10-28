@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    on_calendar (0.1.4)
+    on_calendar (0.1.5)
       activesupport (~> 8.0)
 
 GEM
