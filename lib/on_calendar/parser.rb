@@ -4,7 +4,7 @@ module OnCalendar
   class Parser
     class Error < StandardError; end
 
-    MAX_ITERATIONS = 100
+    MAX_ITERATIONS = 4000
     TIME_SEP_CHAR = ":"
     DATE_SEP_CHAR = "-"
     DATETIME_SEP_CHAR = "T"
