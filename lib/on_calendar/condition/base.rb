@@ -23,6 +23,11 @@ module OnCalendar
         self.class::RANGE
       end
 
+      # Provide min / max of range for validation
+      def self.range_bounds
+        self.const_get(:RANGE).minmax
+      end
+
       # Match this condition
       # - If wild card return true
       # No step:

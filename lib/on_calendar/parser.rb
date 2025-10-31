@@ -236,7 +236,7 @@ module OnCalendar
         begin
           parsed = OnCalendar::Segment.parse(segments.shift, max: max, min: min)
           if parsed.nil?
-            # We are a wild card
+            # We are a wildcard
             conditions[idx] = [OnCalendar::Condition.const_get(klass).new(wildcard: true)]
           else
             # Lets build conditions with parsed
