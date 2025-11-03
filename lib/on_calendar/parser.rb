@@ -28,7 +28,7 @@ module OnCalendar
       @expression = expression
     end
 
-    def next(count=1, clamp: timezone.now)
+    def next(count=1, clamp: timezone.now, debug: false)
       raise OnCalendar::Parser::Error, "Clamp must be instance of Time" unless clamp.is_a?(Time)
 
       # Translate to correct timezone and add 1.second to ensure
@@ -37,7 +37,7 @@ module OnCalendar
 
       results = []
       count.times do
-        result = iterate(clamp: clamp)
+        result = iterate(clamp: clamp, debug: debug)
         break if result.nil?
 
         clamp = result + 1.second
@@ -55,8 +55,9 @@ module OnCalendar
 
     private
 
-    def iterate(clamp:)
+    def iterate(clamp:, debug: false)
       iterations = 0
+      output = [["-", clamp.to_s, "", ""]] if debug
 
       while true
         # Fail safe
@@ -84,8 +85,7 @@ module OnCalendar
           days_of_month: {
             base_method: :day,
             changes: { hour: 0, min: 0, sec: 0 },
-            increment_method: :days,
-            range_args: ->(clamp) { { year: clamp.year, month: clamp.month } }
+            increment_method: :days
           },
           days_of_week: {
             base_method: :wday,
@@ -107,14 +107,18 @@ module OnCalendar
           # Do we miss all condition matches - thus increment
           next if matches_any_conditions?(field: field, base: clamp.send(values[:base_method]))
 
-          # Do we need any range arguments? If so calculate
-          range_args = values[:range_args].call(clamp) if values.key?(:range_args) || nil
           # Determine distances required to jump to next match
           distances = send(field).map do |condition|
-            condition.distance_to_next(clamp.send(values[:base_method]), range_args: range_args)
+            condition.distance_to_next(clamp.send(values[:base_method]), range_args: clamp)
           end.sort!
           # Check for only nil - if so impossible to compute bail
-          return nil if distances.compact.empty?
+          if distances.compact.empty?
+            if debug
+              output << [iterations, clamp.to_s, "impossible", ""]
+              debug_table(output)
+            end
+            return nil
+          end
 
           # Increment by field method
           method = values[:increment_method] || field
@@ -123,6 +127,13 @@ module OnCalendar
           clamp = clamp.change(**values[:changes]) if values.key?(:changes)
           # Force re-check everything by marking manipulation
           field_manipulation = true
+          # Debug
+          output << [
+            iterations,
+            clamp.to_s,
+            field.to_s,
+            distances.min
+          ] if debug
           break
         end
 
@@ -131,7 +142,18 @@ module OnCalendar
         field_manipulation ? next : break
       end
 
+      # Output debug table
+      debug_table(output) if debug
+
       clamp
+    end
+
+    def debug_table(rows)
+      table = Terminal::Table.new do |t|
+        t.headings = ["Iteration", "Datetime", "Function", "Distance"]
+        t.rows = rows
+      end
+      puts table
     end
 
     def parse(expression)

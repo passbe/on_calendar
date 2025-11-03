@@ -19,7 +19,7 @@ module OnCalendar
       end
 
       # Some subclasses need more context for RANGE
-      def range
+      def range(clamp: nil)
         self.class::RANGE
       end
 
@@ -75,7 +75,7 @@ module OnCalendar
         return 1 if wildcard
 
         # Build array to find needle_index
-        arr = range_args.nil? ? range.to_a : range(**range_args).to_a
+        arr = range(clamp: range_args).to_a
         needle_index = arr.index(current)
 
         return nil if needle_index.nil?
@@ -123,6 +123,13 @@ module OnCalendar
           distance = arr.length - needle_index
         end
         distance
+      end
+
+      private
+
+      # Determine if change in DST between start/end of day 
+      def dst_day?(clamp:)
+        clamp.beginning_of_day.dst? != clamp.end_of_day.dst?
       end
     end
   end

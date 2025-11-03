@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "activesupport", "~> 8.0"
+gem "terminal-table", "~> 4.0.0"
 gem "minitest", "~> 5.11"
 gem "minitest-reporters"
 gem "minitest-spec"

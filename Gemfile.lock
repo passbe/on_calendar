@@ -83,6 +83,8 @@ GEM
       rubocop (>= 1.72.1)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
+    terminal-table (4.0.0)
+      unicode-display_width (>= 1.1.1, < 4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.5)
@@ -107,6 +109,7 @@ DEPENDENCIES
   rubocop-packaging (= 0.6.0)
   rubocop-performance (= 1.25.0)
   rubocop-rake (= 0.7.1)
+  terminal-table
 
 BUNDLED WITH
    2.6.9

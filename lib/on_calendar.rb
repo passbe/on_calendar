@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/all"
+require "terminal-table"
 
 module OnCalendar
   autoload :Version, "on_calendar/version"

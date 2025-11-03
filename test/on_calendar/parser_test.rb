@@ -140,6 +140,32 @@ describe OnCalendar::Parser do
       refute_nil p.next
     end
 
+    it "impossible datetime DST jump" do
+      clamp = Time.parse("2001-01-01 00:00:00")
+      assert_nil parser.new("2026-03-29 3:30:00 Europe/Riga").next(1, clamp: clamp)
+      assert_nil parser.new("2023-10-01 2:30:00 Australia/Sydney").next(1, clamp: clamp)
+    end
+
+    # NOTE: See issue #2
+    it "distance jump bug DST" do
+      clamp = Time.parse("2001-01-01 00:00:00")
+      assert_nil parser.new("2026-03-29 3:30:00 Europe/Riga").next(1, clamp: clamp)
+
+      result = parser.new("2026-03-29 4:30:00 Europe/Riga").next(1, clamp: clamp).first
+      assert_equal "2026-03-29 04:30:00 +0300", result.strftime("%Y-%m-%d %H:%M:%S %z")
+
+      result = parser.new("2026-03-29 20:30:00 Europe/Riga").next(1, clamp: clamp).first
+      assert_equal "2026-03-29 20:30:00 +0300", result.strftime("%Y-%m-%d %H:%M:%S %z")
+
+      result = parser.new("2026-03-29 21:30:00 Europe/Riga").next(1, clamp: clamp).first
+      assert_equal "2026-03-29 21:30:00 +0300", result.strftime("%Y-%m-%d %H:%M:%S %z")
+
+      assert_nil parser.new("2026-03-29 01:30:00 Europe/Dublin").next(1, clamp: clamp)
+
+      result = parser.new("2026-03-29 17:30:00 Europe/Dublin").next(1, clamp: clamp).first
+      assert_equal "2026-03-29 17:30:00 +0100", result.strftime("%Y-%m-%d %H:%M:%S %z")
+    end
+
     # Load * examples from fixtures and stress test
     YAML.load_file("test/fixtures/expressions.yaml", permitted_classes: [Time])["expressions"].each do |e|
       it "expression: #{e['expression']}" do

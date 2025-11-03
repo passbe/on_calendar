@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport", "~> 8.0"
+  spec.add_dependency "terminal-table", "~> 4.0.0"
 end
