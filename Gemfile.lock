@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    on_calendar (0.1.6)
+    on_calendar (0.1.7)
       activesupport (~> 8.0)
+      terminal-table (~> 4.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -109,7 +110,7 @@ DEPENDENCIES
   rubocop-packaging (= 0.6.0)
   rubocop-performance (= 1.25.0)
   rubocop-rake (= 0.7.1)
-  terminal-table
+  terminal-table (~> 4.0.0)
 
 BUNDLED WITH
    2.6.9
